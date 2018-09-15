@@ -29,7 +29,7 @@ func main() {
 	exporter := newExporter()
 	prometheus.MustRegister(exporter)
 
-	http.Handle("/metrics", prometheus.Handler())
+	http.Handle(config.PublishPath, prometheus.Handler())
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
              <head><title>RabbitMQ Exporter</title></head>
@@ -64,7 +64,7 @@ func main() {
 		//		"RABBIT_PASSWORD": config.RABBIT_PASSWORD,
 	}).Info("Active Configuration")
 
-	log.Fatal(http.ListenAndServe(config.PublishAddr+":"+config.PublishPort, nil))
+	log.Fatal(http.ListenAndServe(config.PublishAddr+":"+config.PublishPort+config.PublishPath, nil))
 }
 
 func getLogLevel() log.Level {

@@ -90,6 +90,16 @@ func TestEnvironmentSettingAddr(t *testing.T) {
 	}
 }
 
+func TestEnvironmentSettingPath(t *testing.T) {
+	newValue := "/prometheus"
+	os.Setenv("PUBLISH_PATH", newValue)
+	defer os.Unsetenv("PUBLISH_PATH")
+	initConfig()
+	if config.PublishAddr != newValue {
+		t.Errorf("Expected config.PUBLISH_PATH to be modified. Found=%v, expected=%v", config.PublishpPath, newValue)
+	}
+}
+
 func TestEnvironmentSettingFormat(t *testing.T) {
 	newValue := "json"
 	os.Setenv("OUTPUT_FORMAT", newValue)
